@@ -207,7 +207,7 @@ def tag(address_string, tag_mapping=None):
 def tokenize(address_string):
     if isinstance(address_string, bytes):
         address_string = str(address_string, encoding='utf-8')
-    address_string = re.sub('(&#38;)|(&amp;)', '&', address_string)
+    address_string = re.sub(r'(&#38;)|(&amp;)', '&', address_string)
     re_tokens = re.compile(r"""
     \(*\b[^\s,;#&()]+[.,;)\n]*   # ['ab. cd,ef '] -> ['ab.', 'cd,', 'ef']
     |
@@ -244,7 +244,7 @@ def tokenFeatures(token):
                    if token_abbrev.isdigit()
                    else u'w:' + str(len(token_abbrev))),
         'endsinpunc': (token[-1]
-                       if bool(re.match('.+[^.\w]', token, flags=re.UNICODE))
+                       if bool(re.match(r'.+[^.\w]', token, flags=re.UNICODE))
                        else False),
         'directional': token_abbrev in DIRECTIONS,
         'street_name': token_abbrev in STREET_NAMES,
